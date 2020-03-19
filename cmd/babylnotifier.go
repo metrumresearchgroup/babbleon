@@ -52,7 +52,7 @@ of a phase of execution`,
 		err := application.Process()
 
 		if err != nil {
-			log.WithFields(log.Fields{
+			logger.WithFields(log.Fields{
 				"to" : config.Target,
 				"message" : config.Message,
 			}).Errorf("An error occurred sending the requested data")
