@@ -22,7 +22,7 @@ func (s *SlackRepository) SendNotification(notification string, destination stri
 
 	response , _ , err  := api.PostMessage(destination,slack.MsgOptionText(notification,false))
 
-	log.WithFields(log.Fields{
+	s.logger.WithFields(log.Fields{
 		"response" : response,
 	}).Debug("Sent notification")
 
