@@ -22,7 +22,8 @@ of a phase of execution`,
 		viper.AutomaticEnv()
 		//Bindings
 		viper.BindEnv("OAUTH_TOKEN")
-		viper.BindEnv("SENDING_TO")
+		viper.BindEnv("MESSAGE")
+		viper.BindEnv("TARGET")
 		viper.BindEnv("DEBUG")
 
 

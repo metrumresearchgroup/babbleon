@@ -47,7 +47,6 @@ func (n *SlackNotificationService) Notify() error {
 
 type Configuration struct {
 	OAuthToken string `mapstructure:"OAUTH_TOKEN"`
-	SendingTo string `mapstructure:"SENDING_TO"`//Slack username @user or channel
 	Debug bool `mapstructure:"DEBUG"`
 	Message string `mapstructure:"message"`
 	Target string `mapstructure:"target"`
