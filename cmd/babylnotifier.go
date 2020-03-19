@@ -12,9 +12,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "babylnotifier",
-	Short: "Babylnotifier is an easy-to-use notification tool",
-	Long: `Babylnotifier is an easy-to-use notification tool that pairs
+	Use:   "babbleon",
+	Short: "babbleon is an easy-to-use notification tool",
+	Long: `babbleon is an easy-to-use notification tool that pairs
 very well with Babylon. This facilitates the notification of users after the termination 
 of a phase of execution`,
 	Run: func(cmd *cobra.Command, args []string) {
