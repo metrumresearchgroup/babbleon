@@ -12,7 +12,7 @@ Was it successful? *{{ .ModelDetails.Successful }}* {{ if eq .ModelDetails.Succe
 • Output Directory:	{{ .ModelDetails.OutputDirectory }}
 • Model:			{{ .ModelDetails.Model }}
 • Original Path:	{{ .ModelDetails.Path }} 
-{{- if not .ModelDetails.Successful }}• Error details for the failure are: {{ .ModelDetails.Error }}
+{{ if not .ModelDetails.Successful }}• Error details for the failure are: {{ .ModelDetails.Error }}
 {{- end }}
 
 {{ $length := len .Additional }} {{ if gt $length 0 }}
