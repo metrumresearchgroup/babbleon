@@ -22,7 +22,6 @@ of a phase of execution`,
 		viper.AutomaticEnv()
 		//Bindings
 		viper.BindEnv("OAUTH_TOKEN")
-		viper.BindEnv("MESSAGE")
 		viper.BindEnv("TARGET")
 		viper.BindEnv("DEBUG")
 
@@ -37,19 +36,29 @@ of a phase of execution`,
 			logger.SetLevel(log.DebugLevel)
 		}
 
-		babylonDetails := app.NewBabylonModelDetails()
+		babylonDetails := repository.NewBabylonModelDetails()
+		babylonMessage := repository.BabylonSlackMessage{
+			ModelDetails: babylonDetails,
+			Additional:   config.Additional,
+		}
+		message, err := babylonMessage.PopulatedTemplate(repository.SlackMessageTemplate)
+
+		if err != nil {
+			log.Fatalf("Failure to process the message from template: %s", err)
+		}
+
 		slackrepo := repository.NewSlackRepository(logger, config.OAuthToken)
 		service := app.NewSlackNotificationService(babylonDetails,
 			&config,
 			slackrepo,
 			logger,
-			config.Message,
+			message,
 			config.Target)
 
 		application := api.NewSlackHandler(logger,service)
 
 
-		err := application.Process()
+		err = application.Process()
 
 		if err != nil {
 			logger.WithFields(log.Fields{
@@ -68,12 +77,11 @@ func Execute() {
 }
 
 func init(){
-	const messageIdentifier string = "message"
-	rootCmd.Flags().String(messageIdentifier,"", "The person / number / identifier to which the " +
-		"message will be sent")
-	viper.BindPFlag(messageIdentifier, rootCmd.Flags().Lookup(messageIdentifier))
-
 	const  targetIdentifier string = "target"
 	rootCmd.Flags().String(targetIdentifier, "" , "The message to send out")
 	viper.BindPFlag(targetIdentifier, rootCmd.Flags().Lookup(targetIdentifier))
+
+	const additionalValuesIdentifier string = "additional_message_values"
+	rootCmd.Flags().StringSlice(additionalValuesIdentifier, []string{} , "Additional information to include in the message placed exactly as provided at the end of the message")
+	viper.BindPFlag(additionalValuesIdentifier,rootCmd.Flags().Lookup(additionalValuesIdentifier))
 }
